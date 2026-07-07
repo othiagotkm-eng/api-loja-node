@@ -1,6 +1,23 @@
 const express = require("express");
 
 const app = express();
+const produtos = [
+    {
+        id: 1,
+        nome: "Mouse Gamer",
+        preco: 120
+    },
+    {
+        id: 2,
+        nome: "Teclado Mecânico",
+        preco: 300
+    },
+    {
+        id: 3,
+        nome: "Monitor",
+        preco: 1200
+    }
+];
 
 app.use(express.json());
 
@@ -9,7 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/produtos", (req, res) => {
-       res.json([
+       res.json(produtos)([
         {
 
           id: 1,
@@ -32,14 +49,17 @@ app.get("/produtos", (req, res) => {
        ]);
 });
 
-app.post(("/produtos"), (req, res) => {
+app.post("/produtos", (req, res) => {
 
-  const produto = req.body;
+    const produto = req.body;
 
-  res.json({
-    mensagem: "Produto recebido com sucesso",
-    produto: produto
-  })
+    produtos.push(produto);
+
+    res.status(201).json({
+        mensagem: "Produto cadastrado com sucesso!",
+        produto
+    });
+
 });
 
 app.listen(3000, () => {
