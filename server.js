@@ -1,5 +1,7 @@
 const express = require("express");
 
+
+
 const app = express();
 const produtos = [
     {
@@ -19,11 +21,13 @@ const produtos = [
     }
 ];
 
+
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Minha primeiraaa API!");
-});
+
 
 app.get("/produtos", (req, res) => {
        res.json(produtos)([
@@ -49,6 +53,15 @@ app.get("/produtos", (req, res) => {
        ]);
 });
 
+app.get("/produtos/:id", (req, res) => {
+
+    const id = Number(req.params.id);
+
+    const produto = produtos.find((produto) => produto.id === id);
+
+    res.json(produto);
+});
+
 app.post("/produtos", (req, res) => {
 
     const produto = req.body;
@@ -59,6 +72,10 @@ app.post("/produtos", (req, res) => {
         mensagem: "Produto cadastrado com sucesso!",
         produto
     });
+
+});
+
+
 
 });
 
