@@ -57,10 +57,10 @@ app.post("/produtos", (req, res) => {
 
 });
 
-app.put("/produtos/:id", (req,res) =>{
-const id = Number(req.params.id);
-});
 
+app.put("/produtos/:id", (req, res) => {
+    const id = Number(req.params.id);
+});
 
 
 
