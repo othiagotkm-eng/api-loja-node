@@ -63,7 +63,7 @@ app.put("/produtos/:id", (req, res) => {
 
    const produto = produtos.find((produto) => produto.id === id);
 
-   produto.nome = req.bosy.nome;
+   produto.nome = req.body.nome;
    produto.preco = req.body.preco;
 
    res.json(produto);
