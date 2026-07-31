@@ -69,6 +69,19 @@ app.put("/produtos/:id", (req, res) => {
    res.json(produto);
 });
 
+app.delete("/produtos/:id", (req, res) => {
+     
+const id = Number(req.params.id)
+
+const index = produtos. findIndex((produto) => produto.id ===id);
+
+produtos.splice(index,1);
+
+res.json({
+    mensagem:"produto removido com sucesso!"
+})
+});
+
 
 
 
