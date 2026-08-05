@@ -26,13 +26,26 @@ const produtos = [
 app.use(express.json()); 
 
 
+
 app.get("/", (req, res) => {
   res.send("Minha primeiraaa API!");
 });
 
 
 app.get("/produtos", (req, res) => {
-    res.json(produtos);
+
+    conexao.query("SELECT * FROM produtos", (error, results) => {
+
+        if (error) {
+            return res.status(500).json({
+                mensagem: "Erro ao buscar produtos."
+            });
+        }
+
+        res.json(results);
+
+    });
+
 });
 
 app.get("/produtos/:id", (req, res) => {
@@ -82,6 +95,8 @@ res.json({
 })
 });
 
+
+const conexao = require("./conexao");
 
 
 
