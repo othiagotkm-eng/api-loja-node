@@ -57,18 +57,7 @@ app.get("/produtos/:id", (req, res) => {
     res.json(produto);
 });
 
-app.post("/produtos", (req, res) => {
 
-    const produto = req.body;
-
-    produtos.push(produto);
-
-    res.status(201).json({
-        mensagem: "Produto cadastrado com sucesso!",
-        produto
-    });
-
-});
 
 
 app.put("/produtos/:id", (req, res) => {
@@ -83,23 +72,56 @@ app.put("/produtos/:id", (req, res) => {
 });
 
 app.delete("/produtos/:id", (req, res) => {
-     
-const id = Number(req.params.id)
 
-const index = produtos. findIndex((produto) => produto.id ===id);
+    const id = Number(req.params.id);
 
-produtos.splice(index,1);
+    conexao.query(
+        "DELETE FROM produtos WHERE id = ?",
+        [id],
+        (error, results) => {
 
-res.json({
-    mensagem:"produto removido com sucesso!"
-})
+            if (error) {
+                return res.status(500).json({
+                    mensagem: "Erro ao remover produto."
+                });
+            }
+
+            res.json({
+                mensagem: "Produto removido com sucesso!"
+            });
+
+        }
+    );
+
 });
-
+        
 
 const conexao = require("./conexao");
 
 
+app.post("/produtos", (req, res) => {
 
+    const { nome, preco } = req.body;
+
+    conexao.query(
+        "INSERT INTO produtos (nome, preco) VALUES (?, ?)",
+        [nome, preco],
+        (error, results) => {
+
+            console.log("ERRO:", error);
+            console.log("RESULTADO:", results);
+
+            if (error) {
+                return res.status(500).json(error);
+            }
+
+            res.status(201).json(results);
+               
+
+        }
+    );
+
+});
 app.listen(3000, () => {
   console.log("Servidor rodando em http://localhost:3000/produtos");
 });
